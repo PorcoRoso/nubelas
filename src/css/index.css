@@ -1,0 +1,85 @@
+@font-face{
+    font-family:df;
+    /*为引入的字体命名*/
+    src:url(../../fonts/DFGBFY7.ttc);
+    /*定义要引入字体文件的路径*/
+}
+html, body {
+    height: 100%;
+}
+body {
+    background: url(../../imgs/bg.png) no-repeat 0 0 / 100% 100%;
+    font-family: df;
+}
+.center {
+    position: absolute;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+}
+.head {
+    width: 500px;
+    top: 30px;
+}
+.answer {
+    width: 400px;
+    top: 60px;
+}
+.content {
+    width: 800px;
+    top: 168px;
+}
+.button {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    top: 520px;
+    width: 200px;
+    text-align: center;
+    color: white;
+}
+.button img {
+    width: 100%;
+}
+.button .text {
+    position: absolute;
+    top: 4px;
+    width: 100%;
+    line-height: 0;
+    font-size: 20px;
+    cursor: pointer;
+}
+.container {
+    width: 600px;
+    height: 200px;
+    top: 300px;
+    text-align: center;
+}
+.text-left{
+    text-align: left;
+    font-size: 18px;
+    line-height: 25px;
+    color: #390002;
+}
+.topic {
+    font-size: 20px;
+    text-align: left;
+    padding: 0 40px;
+    line-height: 40px;
+}
+.options > span {
+    cursor: pointer;
+    min-width: 50%;
+    display: inline-block;
+    font-size: 16px;
+}
+.active {
+    color: #D21C1E;
+}
+.score {
+    color: white;
+    font-size: 40px;
+}
+[v-clock]{
+    display: none;
+}

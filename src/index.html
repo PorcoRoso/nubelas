@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="css/index.css" rel="stylesheet" type="text/css">
+    <script src="../libs/jquery.min.js"></script>
+    <script src="../libs/vue.min.js"></script>
+    <script src="../libs/en.js"></script>
+    <script src="../libs/nebPay.js"></script>
+    <script src="../libs/nebulas.js"></script>
+</head>
+<body>
+<div id="app">
+    <img src="../imgs/head.png" class="center head">
+    <img src="../imgs/title.png" class="center answer">
+    <img src="../imgs/content.png" class="center content">
+    <span class="score" v-show="score != 'null'" v-clock>得分：{{ score }}</span>
+    <button id="setAccount">设置账户</button>
+    <div class="center container" v-clock>
+        <div id="home" v-if="page == 0">
+            <h2 style="color:#DE0000;">新韭菜必知必会答题赢NAS</h2>
+            <h3 style="color:#D21C1E;">游戏规则</h3>
+            <p class="text-left">选手支付1NAS参与答题，按答题正确率和耗时排名，当满足30人参与答题，则排名前5瓜分奖金池奖励。 <br>第一名：50% 第二名：20% 第三名：10% 第四名：5% 第五名：3%</p>
+        </div>
+        <div class="topic" v-for="(item, index) in list" v-show="page == index+1">
+            <p style="margin: 0;">{{ index+1 }}、{{ item.question }}</p>
+            <div class="options">
+                <span v-for="(op, num) in item.option" v-on:click="select(item.num, op)" v-bind:class="{ active: answer == op }">{{ prefix(num) }}{{ op }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="center button" v-clock>
+        <img src="../imgs/button.png">
+        <p class="text" id="button" v-on:click="enter">{{buttonText(page,score)}}</p>
+    </div>
+</div>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype>
+<html>
+<head>
+    <meta charset="utf8">
+    <script type="text/javascript" src="../libs/jquery.min.js"></script>
+    <script type="text/javascript" src="../libs/nebPay.js"></script>
+    <script type="text/javascript" src="../libs/nebulas.js"></script>
+
+</head>
+<body>
+<input type="text" id="addr" value="n1dQjaU8HeFMwh79PXpu58DHNp5zhQYgbv7">
+<button onclick="queryAll()">查题库</button>
+<button onclick="saveItemBank()">存题库</button>
+<button onclick="sign()">报名</button>
+<button onclick="getQ()">获取题目</button>
+
+<script type="text/javascript">
+    // 初始化对象
+    var NebPay = require("nebpay");
+    var nebPay = new NebPay();
+    // 合约地址
+    var dappAddr = "n1zLvS3YAPjHErraGP6LH8HG7wLja88ntRA";
+    // 用户地址
+    var account = $('#addr').val();
+
+    // 初始化变量
+    var nebulas = require("nebulas"),
+            Account = nebulas.Account,
+            neb = new nebulas.Neb(),
+            api = neb.api;
+    // 设置使用的网络
+    neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"));
+
+    // 判断钱包插件
+    if (typeof (webExtensionWallet) === "undefined") {
+        //alert("请先安装星云钱包插件.");
+    }
+
+     var arr = [{"Question":"下面哪些对于区块链的描述是错误的?","Option":"去中心%弱中心%单中心%多中心","Answer":"6eaab4356b870ad024dff5cc6fda565e76202835"},{"Question":"下面哪个不属于师出同门的？","Option":"ETC和ETH%Ripple和Stellar%BTC和BTS%BTC和LTC","Answer":"a52363c63a7b723c704c040510f277b90bcf95a0"},{"Question":"下面哪个不属于当前区块链技术的应用场景？","Option":"物联网%预测%股票交易%支付宝","Answer":"7b1f7128f4c5246749b69ed145f44443ff51a47c"},{"Question":"对于基于区块链的数字货币资产的拥有者来说，最重要是保护好自己的？","Option":"公钥%私钥%账号密码%数字签名","Answer":"fc687a6769a8303c3e5fb67046bc9d827d605ea5"},{"Question":"下面哪些是比特币和以太坊两种区块链技术的共同点？","Option":"共识机制%挖矿算法%智能合约%开发中心化","Answer":"62a0808af5168f7c3100be6fc5566df536b2295e"},{"Question":"中本聪是哪里人？","Option":"中国人%美国人%日本人%不确定","Answer":"0bd4084f003b92c1beb7fd71d24627351aab15de"},{"Question":"下面哪种共识机制效率最低？","Option":"PoW%PoS%DPoS%PBFT","Answer":"e319d57a610f515768cf83ee7ec365c118ca2c02"},{"Question":"如果同时收到两份合法的账本如何处理？","Option":"以当前最长分支作为主账本，但是保留其它分支%只保留当前最长分支作为主账本%以保留交易时间最早的分支作为主账本，但是保留其它分支%只保留本次挖矿手续最多的交易分支作为主账本","Answer":"da5657b578188782287414b932c11bf41f68c298"},{"Question":"拜占庭将军问题解决了哪个问题？","Option":"分布式通讯%内容加密%共识机制%投票机制","Answer":"4a2e29d598edb12cad17fe4a452f626d2643d145"},{"Question":"关于数字货币矿工及其挖矿程序的说法哪种是正确的？","Option":"都是由原生数字货币开发者配套提供%一般是定制开发的%假如同一笔UTXO构造了两笔分别付给A和B的交易，矿工不可以自主任意选择这两笔交易里的一笔%矿工收入仅来源于挖矿奖励","Answer":"9aaf6e8c4fc4e7e7c8c2d74c628bed0b3555e101"},{"Question":"加密数字货币如果设置过短的确认时间会更容易导致什么出现?","Option":"高效率%低效率%孤块%双花","Answer":"0cb8766ec6068becbc34a775c8861bf52ca8f2df"},{"Question":"如果一笔比特币交易没有包含挖矿费用，最终会怎样？","Option":"不被确认%正常确认速度%24小时内%不确定时间，但最终还是会被确认","Answer":"8701f5f04a1e2984bd9322f203d1cc4b6899a469"},{"Question":"SHA256和Scrypt两种加密算法的区别正确的说法是？","Option":"SCRYPT是后来者为了超越比特币的SHA256算法，因此更高效更先进%SCRYPT占用的内存更多，计算时间更长，对硬件要求很高%SCRYPT使得矿工更容易挖矿，降低能耗%SCRYPT是一种对称加密算法","Answer":"14198fb7618f0e0591c790d4e0ffad6cf8fcadd2"},{"Question":"关于达世币使用的X11算法，下面哪种说法是正确的？","Option":"一种具体的Hash加密算法%11种加密算法的串联算法%11种加密算法的并联算法%这种算法大大提高数字货币系统的安全性","Answer":"fb5d98663104cd46e2081cb19a293a04b3dcf813"},{"Question":"下面关于以太坊叔块率的说法错误的是？","Option":"叔块不能进入主链，所以是完全无效的%更小的块的传播速度更快，叔块产生概率更低%如果网络产生的叔块概率提高，那么矿工将需要降低燃料限制%叔块目前是以太坊特有的概念","Answer":"ee462110c18788d67cde7702fa87c7cde2acc99a"},{"Question":"五种区块链在相同节点数量下的TPS对比正确的是？","Option":"Ripple\u003eBitShare\u003efabric\u003eBTC\u003eFactom%fabric\u003eBitShare\u003eRipple\u003eFactom\u003eBTC%fabric\u003eBitShare\u003eFactom\u003eRipple\u003eBTC%fabric\u003eRipple\u003eBitShare\u003eFactom\u003eBTC","Answer":"c24f883ca7f6b4017e3b8e692681ff8db21073d4"},{"Question":"下面哪种不属于区块链的隐私保护方案？","Option":"sharding%环签名%同态加密%零知识证明","Answer":"494ef9c4b79b355b870ff173cf3f2989f0513088"},{"Question":"按中国算力来看，下面哪个算力在中国平均占比最大？","Option":"比特币%以太坊%ZCash%狗狗币","Answer":"4d061f64cbba972ff8495166a1a643ff5a53f426"},{"Question":"下面哪一个不是通过自身社区共治共享的公有链体现了其技术体系对公有链场景的适用性?","Option":"Ripple%Openchain%Stellar%比特股","Answer":"185e3f12c4f42429c7ecb9751fabe74dec160626"},{"Question":"关于智能合约的说法正确是？","Option":"以太坊智能合约的代码量最大是1M%因为之前出了theDAO事件，可以证明智能合约是不安全的%智能合约是限定的区块链应用程序%智能合约就是区块链上的一个代码，被区块链上的交易激活","Answer":"ed728fb8664540984738bb96e88484d2206e6b88"},{"Question":"比特币的创始人叫做?","Option":"埃隆.马斯克%中本聪%克雷格·赖特%Vitalik Buterin","Answer":"271e5e2d30f4f57aa88378778eed2d2afe0c7d67"},{"Question":"UTXO在比特币领域中是什么的缩写?","Option":"unknown transaction offering%unknown tax output%unspent transmit output%unspent transaction output","Answer":"935ef4a85aad49db13746896f9fbb44ae48a31ac"},{"Question":"什么是HASH?","Option":"散列函数是将任意长度的数据映射到有限长度的域上%HASH是一种数字货币加密算法%HASH是一种表格，用来记账%HASH是SelfSell平台推出的韩国明星","Answer":"1796a16f0cd40b5f26c1be0ac40eebcb5f8f8bd0"},{"Question":"SelfSell公有链的产块间隔是几秒? ","Option":"6秒%10秒%15秒%10分钟","Answer":"ec83edf708574a842678fa20779395cc9f9d1a58"},{"Question":"BFT在区块链共识领域中的是指什么?","Option":"Byzantine fault tolerance%Battle Force Tank%Byzantine Force Attac%Blue False Tracking","Answer":"89872ac0e05cfc84bfc74c758284d2c79e582b60"},{"Question":"下列哪一项不是HASH冲突的解决方式? ","Option":"开放定址法%链地址法%椭圆加密法%再哈希","Answer":"94d9c1f35e127d813a719f5e77bd04fb64d446a0"},{"Question":"下列哪一个不是采用DPOS共识的区块链? ","Option":"BTS%Steemit%EOS%Cardano","Answer":"afd2111d777ea96bc85062a97bedeb5463b0017a"},{"Question":"下列说法正确的是？","Option":"区块链上的数据默认加密的%区块链上的记录都是真实的%区块链记录所有事件是不可篡改的%区块链没有拒绝服务攻击（DDOS）的问题","Answer":"6209a6ad5c8cc811b4d280b349d37b13dd676cf1"},{"Question":"下列说法正确的是？","Option":"加密数字货币都是使用区块链技术%比特币的每个节点同步的账本都是全账本%当最后一个比特币挖出来后，比特币不需要继续挖矿了%区块链的签名加密技术一般采用对称加密技术","Answer":"0c7cb9b6c465679a355ec8e894558335cbdf6464"},{"Question":"区块链2.0的标志是哪些？","Option":"虚拟机%智能合约%去中心化自治组织%联盟链","Answer":"f5359e2841141f3c7771243e7f5871e1f76d0627"},{"Question":"下面对于以太坊哪些点的说法是错误的？","Option":"Gas价格实际上由矿工决定%ETH分叉出来后，旧有的链都会马上失去价值%只有外有账户发出事务时，合约账户才会执行相应的操作%一次交易都要在以太坊的所有节点的EVM上执行一遍","Answer":"107386791365c0ad59a2577499cbb69014ee2e31"},{"Question":"下面哪些区块链是图灵完备的？","Option":"以太坊%比特股%比特币%瑞波","Answer":"ce5cc017b87bd6ac0426f55eece054e779370616"},{"Question":"下面哪些区块链是有采用侧链技术？","Option":"fabric%以太坊%比特币%EOS","Answer":"a7831b07a846f1e748e0d64a36ada10c4277bacb"},{"Question":"下面哪些不属于哈希函数加密算法？","Option":"MD5%SCHNORR%Dagger%Ethash","Answer":"8f8e4c239d630e7af05d0faaef276b7d01b527d5"},{"Question":"51％攻击能做什么？","Option":"修改自己的交易记录，这可以使他进行双重支付%改变每个区块产生的比特币数量%凭空产生比特币%把不属于他的比特币发送給自己或其他人","Answer":"7f5a0784517693d5689c2a6abe57f9b6cb5ce99e"},{"Question":"下面哪些属于加密数字货币？","Option":"网络黄金%百度币%Q币%点点币","Answer":"7b899fce55a0188113f6917f085f1c26288e9bc4"},{"Question":"比特币与黄金的相似之处是？","Option":"难以伪造%总储量固定%易于分割%以上均是","Answer":"9fcb5939d04dc800a87840f285469567724e42b8"},{"Question":"什么是K线？","Option":"是一种实时记录交易情况的图表%可让人们了解市场的价格波动%常用语股市、比特币交易、期货交易市场%以上答案均是","Answer":"fee5e4d344a390d7e5e0120f1c957fe76c32503a"},{"Question":"以下属于冷钱包的是？","Option":"Electrum%Instawallet%Paytunia%以上均是","Answer":"9fcb5939d04dc800a87840f285469567724e42b8"},{"Question":"什么是冷钱包？","Option":"一种钱包存储技术%是与互联网处于分离状态的离线钱包存储技术%主要用于保障数字货币安全%以上均对","Answer":"256aaa4aa4852e06916393fd0492b762489e638d"}];
+
+    function  saveItemBank () {
+        sendTransaction("saveItemBank", "["+JSON.stringify(arr)+"]", function(data) {
+            console.log(data)
+        });
+    }
+
+    function queryAll () {
+        query("queryAll", null, function(data) {
+            alert(data)
+        });
+    }
+
+    function sign() {
+        sendTransaction("sign", null, function(data) {
+            console.log(data.execute_result)
+        }, 1);
+    }
+
+    function getQ () {
+        query("getQ", null, function(data) {
+            alert(data)
+        });
+    }
+
+    // 同一调用函数（仅读取链上数据，不收取手续费，且实时返回）
+    function query(callFunction, callArgs, callback, value) {
+        value = value || 0;  // 金额
+        var nonce = "1";   // 交易序号
+        var gas_price = "1000000"; // 手续费价格
+        var gas_limit = "2000000"; // 手续费限制
+        var contract = { // 合约
+            "function": callFunction,   // 方法名
+            "args": JSON.stringify(callArgs)            // 参数
+        };
+
+        neb.api.call(account, dappAddr, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
+            return callback(resp.result)
+        }).catch(function (err) {
+            console.log(err)
+        });
+    }
+
+    // 发送交易（保存数据上链，收取手续费），需等待区块打包
+    function sendTransaction(callFunction, callArgs, callback, value) {
+        value = value || 0;
+        nebPay.call(dappAddr,
+                value,
+                callFunction,
+                callArgs,
+                {
+                    qrcode: {
+                        showQRCode: false
+                    },
+                    goods: {
+                        name: "Bid",
+                        desc: "Nas for bid"
+                    },
+                    listener: function(data) {
+                        console.log(data.txhash)
+                        var timer = setInterval(function() {
+                            api.getTransactionReceipt({
+                                hash: data.txhash
+                            })
+                                    .then(function(receipt) {
+                                        if (receipt.status != 2) {
+                                            clearInterval(timer);
+                                            if (receipt.status == 1) {
+                                                alert('交易成功')
+                                            } else {
+                                                alert('交易失败')
+                                            }
+                                            callback && callback(receipt);
+                                        } else {
+                                            console.log('交易中...');
+                                        }
+                                    })
+                        }, 1000);
+                    }
+                });
+    }
+
+
+
+
+</script>
+
+</body>
+</html>
