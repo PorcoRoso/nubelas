@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-    <script src="../libs/jquery.min.js"></script>
-    <script src="../libs/vue.min.js"></script>
-    <script src="../libs/en.js"></script>
-    <script src="../libs/nebPay.js"></script>
-    <script src="../libs/nebulas.js"></script>
+    <link href="src/css/index.css" rel="stylesheet" type="text/css">
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/vue.min.js"></script>
+    <script src="libs/en.js"></script>
+    <script src="libs/nebPay.js"></script>
+    <script src="libs/nebulas.js"></script>
 </head>
 <body>
 <div id="app">
-    <img src="../imgs/head.png" class="center head">
-    <img src="../imgs/title.png" class="center answer">
-    <img src="../imgs/content.png" class="center content">
+    <img src="imgs/head.png" class="center head">
+    <img src="imgs/title.png" class="center answer">
+    <img src="imgs/content.png" class="center content">
     <span class="score" v-show="score != 'null'" v-clock>得分：{{ score }}</span>
     <div class="center container" v-clock>
         <div id="home" v-if="page == 0">
@@ -30,12 +30,12 @@
         </div>
     </div>
     <div class="center button" v-clock>
-        <img src="../imgs/button.png">
+        <img src="imgs/button.png">
         <p class="text" id="button" v-on:click="enter">{{buttonText(page,score)}}</p>
     </div>
 </div>
 
-    <script src="js/main.min.js"></script>
+    <script src="src/js/main.min.js"></script>
 
 </body>
 </html>
